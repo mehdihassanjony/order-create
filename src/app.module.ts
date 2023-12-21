@@ -3,12 +3,10 @@ import { ConfigModule } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import * as Joi from '@hapi/joi';
 import { DatabaseModule } from './database/database.module';
-import { RedisCacheModule } from "./cache/redisCache.module";
+import { RedisCacheModule } from './cache/redisCache.module';
 import { ProductsModule } from './products/products.module';
-import { OrdersModule } from "./orders/orders.module";
-import { DailyReportModule } from './scheduler/dailyReport.module';
-import { ReportModule } from './report/report.module';
-import { AuthenticationMiddleware } from "./middleware/authentication.middleware";
+import { OrdersModule } from './orders/orders.module';
+import { AuthenticationMiddleware } from './middleware/authentication.middleware';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -29,16 +27,12 @@ import { AppService } from './app.service';
     RedisCacheModule,
     ProductsModule,
     OrdersModule,
-    DailyReportModule,
-    ReportModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(AuthenticationMiddleware)
-      .forRoutes('products', 'orders');
+    consumer.apply(AuthenticationMiddleware).forRoutes('products', 'orders');
   }
 }
